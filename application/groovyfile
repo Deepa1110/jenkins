@@ -1,0 +1,54 @@
+pipeline {
+  agent none
+  stages {
+    stage('Back-end') {
+      agent {
+        docker { image 'maven:3.8.1-adoptopenjdk-11' }
+      }
+      steps {
+        script {
+          // Checkout source code
+          git 'https://github.com/your-repo/backend.git'
+
+          // Navigate to the backend directory if necessary
+          dir('backend') {
+            // Display Maven version
+            sh 'mvn --version'
+
+            // Compile the project
+            sh 'mvn clean compile'
+
+            // Run tests
+            sh 'mvn test'
+            
+            // Package the application (creates a JAR file)
+            sh 'mvn package'
+          }
+        }
+      }
+    }
+    stage('Front-end') {
+      agent {
+        docker { image 'node:16-alpine' }
+      }
+      steps {
+        script {
+          // Checkout source code
+          git 'https://github.com/your-repo/frontend.git'
+
+          // Navigate to the frontend directory if necessary
+          dir('frontend') {
+            // Display Node.js version
+            sh 'node --version'
+
+            // Install dependencies
+            sh 'npm install'
+
+            // Build the front-end application
+            sh 'npm run build'
+          }
+        }
+      }
+    }
+  }
+}
