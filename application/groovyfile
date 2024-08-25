@@ -8,7 +8,7 @@ pipeline {
       steps {
         script {
           // Checkout source code
-          git 'https://github.com/your-repo/backend.git'
+          git 'https://github.com/Deepa1110/jenkins/edit/main/application'
 
           // Navigate to the backend directory if necessary
           dir('backend') {
