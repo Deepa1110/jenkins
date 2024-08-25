@@ -7,11 +7,11 @@ pipeline {
       }
       steps {
         script {
-          // Checkout source code
-          git 'https://github.com/Deepa1110/jenkins/tree/main/application/back-end'
+          // Checkout source code from the correct repository URL
+          git 'https://github.com/Deepa1110/jenkins.git'
 
           // Navigate to the backend directory if necessary
-          dir('backend') {
+          dir('application/back-end') {  // Adjusted to match the correct path in your repo
             // Display Maven version
             sh 'mvn --version'
 
@@ -33,11 +33,11 @@ pipeline {
       }
       steps {
         script {
-          // Checkout source code
-          git 'https://github.com/Deepa1110/jenkins/tree/main/application/front-end'
+          // Checkout source code from the same repository URL
+          git 'https://github.com/Deepa1110/jenkins.git'
 
           // Navigate to the frontend directory if necessary
-          dir('frontend') {
+          dir('application/front-end') {  // Adjusted to match the correct path in your repo
             // Display Node.js version
             sh 'node --version'
 
