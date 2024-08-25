@@ -7,22 +7,21 @@ pipeline {
       }
       steps {
         script {
-          // Checkout source code from the correct repository URL
-          git 'https://github.com/Deepa1110/jenkins.git'
+          // Checkout the repository
+          git credentialsId: 'github-ssh-key', url: 'https://github.com/Deepa1110/jenkins.git', branch: 'main'
 
-          // Navigate to the backend directory if necessary
-          dir('application/back-end') {  // Adjusted to match the correct path in your repo
-            // Display Maven version
-            sh 'mvn --version'
-
-            // Compile the project
-            sh 'mvn clean compile'
-
-            // Run tests
-            sh 'mvn test'
+          // Navigate to the application folder where your groovyfile is located
+          dir('application') {
+            // Run the groovy script if needed
+            sh 'groovy groovyfile'
             
-            // Package the application (creates a JAR file)
-            sh 'mvn package'
+            // Continue with backend operations
+            dir('back-end') {
+              sh 'mvn --version'
+              sh 'mvn clean compile'
+              sh 'mvn test'
+              sh 'mvn package'
+            }
           }
         }
       }
@@ -33,19 +32,17 @@ pipeline {
       }
       steps {
         script {
-          // Checkout source code from the same repository URL
-          git 'https://github.com/Deepa1110/jenkins.git'
+          // Checkout the repository
+          git credentialsId: 'github-ssh-key', url: 'https://github.com/Deepa1110/jenkins.git', branch: 'main'
 
-          // Navigate to the frontend directory if necessary
-          dir('application/front-end') {  // Adjusted to match the correct path in your repo
-            // Display Node.js version
-            sh 'node --version'
-
-            // Install dependencies
-            sh 'npm install'
-
-            // Build the front-end application
-            sh 'npm run build'
+          // Navigate to the application folder where your groovyfile is located
+          dir('application') {
+            // Continue with frontend operations
+            dir('front-end') {
+              sh 'node --version'
+              sh 'npm install'
+              sh 'npm run build'
+            }
           }
         }
       }
